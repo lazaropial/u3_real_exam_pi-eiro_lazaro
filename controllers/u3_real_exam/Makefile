@@ -67,7 +67,7 @@
 ###
 ###-----------------------------------------------------------------------------
 
-C_SOURCES = u3_real_exam.c distance.c ask.c
+C_SOURCES = u3_real_exam.c distance.c distance2.c ask.c
 ### Do not modify: this includes Webots global Makefile.include
 space :=
 space +=

@@ -955,7 +955,7 @@ Solid {
 }
 Solid {
   translation 0.9270162749193697 0.1 0.19804536831036304
-  rotation 0 1 0 2.094394938775629
+  rotation 0 -1 0 4.450589774583545
   children [
     DEF WALL2 Shape {
       appearance PBRAppearance {

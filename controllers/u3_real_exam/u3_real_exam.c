@@ -1,6 +1,6 @@
 /*
- * File: u3_project_Pieiro_Lazaro.c
- * Date: 16 de julio del 2019
+ * File: u3_real_exam_Pieiro_Lazaro.c
+ * Date: 18 de julio del 2019
  * Description:
  * Author: Lazaro Piñeiro Alcocer
  * Modifications:
@@ -14,6 +14,7 @@
  #include <stdio.h>
 
  #include <distance.h>
+ #include <distance2.h>
  #include <ask.h>
 
  #define TIME_STEP 64
@@ -24,16 +25,11 @@
  LOOKING_ENEMIES
  };
 /*variables globales*/
- double left_distance_sensor,right_distance_sensor,gun_detector,shoot;
+ double left_distance_sensor,right_distance_sensor,enemy_detector,shoot;
  short int robot_state;
- int paro;
  int max_distance=2;
  int time_rotating;
-
-/////////variables para el encoder///
- double pos_final;
  double a;
-
 
  void stopRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
    wb_motor_set_velocity(wheel1, 0);
@@ -42,29 +38,26 @@
  }
 
  void forwardRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
+   int vel=2;
    wb_motor_set_position(wheel1, INFINITY);
    wb_motor_set_velocity(wheel1, 0);
    wb_motor_set_position(wheel2, INFINITY);
-   wb_motor_set_velocity(wheel2, -2);
+   wb_motor_set_velocity(wheel2, -vel);
    wb_motor_set_position(wheel3, INFINITY);
-   wb_motor_set_velocity(wheel3, 2);
+   wb_motor_set_velocity(wheel3, vel);
  }
 
  void turnRightRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
-   wb_motor_set_velocity(wheel1, 1);
-   wb_motor_set_velocity(wheel2, 1);
-   wb_motor_set_velocity(wheel3, 1);
- }
-
- void turnLeftRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
-   wb_motor_set_velocity(wheel1, -1);
-   wb_motor_set_velocity(wheel2, -1);
-   wb_motor_set_velocity(wheel3, -1);
+   int vel=1;
+   wb_motor_set_velocity(wheel1, vel);
+   wb_motor_set_velocity(wheel2, vel);
+   wb_motor_set_velocity(wheel3, vel);
  }
 
  void lookingForEnemies(WbDeviceTag enemy_sen) {
+   float vel=0.6;
    wb_motor_set_position(enemy_sen, INFINITY);
-   wb_motor_set_velocity(enemy_sen, 0.6);
+   wb_motor_set_velocity(enemy_sen, vel);
  }
 
  void enemyDetected(WbDeviceTag enemy_sen) {
@@ -73,8 +66,9 @@
  }
 
  void gunPosition(WbDeviceTag gun,float a) {
+   int vel=1;
    wb_motor_set_position(gun, a);
-   wb_motor_set_velocity(gun, 0.6);
+   wb_motor_set_velocity(gun, vel);
  }
 
  void shootGun(WbDeviceTag a) {
@@ -123,26 +117,25 @@
 
   while (wb_robot_step(TIME_STEP) != -1) {
 
-  ////robot distance sensor /////////////
-  left_distance_sensor=distance(wb_distance_sensor_get_value(ds_l));
-  right_distance_sensor=distance(wb_distance_sensor_get_value(ds_r));
-  gun_detector=((wb_distance_sensor_get_value(gun_sen)*2)/1023);
-  shoot=((wb_distance_sensor_get_value(shoot_gun)*2)/1023);
-
   forwardRobot(wheel1,wheel2,wheel3);
   lookingForEnemies(enemy_sen);
   robot_state=LOOKING_ENEMIES;
 
-  if (gun_detector < max_distance || robot_state==ENEMY_DETECTED) {
+  enemy_detector=checkTheEnemyDistance(enemy_detector,gun_sen);
+  if (enemy_detector < max_distance || robot_state==ENEMY_DETECTED) {
     robot_state=ENEMY_DETECTED;
     stopRobot(wheel1, wheel2, wheel3);
     a=askForPosition(a,enem_pos);
     enemyDetected(enemy_sen);
   }
+  shoot=checkTheEnemyDistance(shoot,shoot_gun);
   if (robot_state==ENEMY_DETECTED) {
     gunPosition(gun, a);
     shootGun(shoot);
   }
+
+  left_distance_sensor=chekingForObstacle(left_distance_sensor,ds_l);
+  right_distance_sensor=chekingForObstacle(right_distance_sensor,ds_r);
 
   if (left_distance_sensor<=0.17 || right_distance_sensor<=0.17) {
       time_rotating++;
@@ -154,7 +147,6 @@
   else {
     time_rotating=0;
   }
-
   };
 
   wb_robot_cleanup();

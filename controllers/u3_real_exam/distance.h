@@ -1,6 +1,6 @@
 #ifndef DIS
 #define DIS
 
-extern float distance(float a);
+extern float chekingForObstacle(float a, WbDeviceTag b);
 
 #endif
