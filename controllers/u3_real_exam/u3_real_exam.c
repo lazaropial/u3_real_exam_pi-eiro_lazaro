@@ -14,6 +14,7 @@
  #include <stdio.h>
 
  #include <distance.h>
+ #include <ask.h>
 
  #define TIME_STEP 64
  #define PI 3.1416
@@ -76,10 +77,6 @@
    wb_motor_set_velocity(gun, 0.6);
  }
 
- void askForPosition(WbDeviceTag enem_pos) {
-   wb_position_sensor_get_value(enem_pos);
- }
-
  void shootGun(WbDeviceTag a) {
    if (a<2 && a>1.5) {
      printf("THA\n");
@@ -139,8 +136,7 @@
   if (gun_detector < max_distance || robot_state==ENEMY_DETECTED) {
     robot_state=ENEMY_DETECTED;
     stopRobot(wheel1, wheel2, wheel3);
-    a = wb_position_sensor_get_value(enem_pos);
-    askForPosition(enem_pos);
+    a=askForPosition(a,enem_pos);
     enemyDetected(enemy_sen);
   }
   if (robot_state==ENEMY_DETECTED) {
