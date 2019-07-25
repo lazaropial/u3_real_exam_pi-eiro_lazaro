@@ -32,55 +32,55 @@ int time_rotating;
 double a;
 
 void stopRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
- wb_motor_set_velocity(wheel1, 0);
- wb_motor_set_velocity(wheel2, 0);
- wb_motor_set_velocity(wheel3, 0);
+  wb_motor_set_velocity(wheel1, 0);
+  wb_motor_set_velocity(wheel2, 0);
+  wb_motor_set_velocity(wheel3, 0);
 }
 
 void forwardRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
- int vel=2;
- wb_motor_set_position(wheel1, INFINITY);
- wb_motor_set_velocity(wheel1, 0);
- wb_motor_set_position(wheel2, INFINITY);
- wb_motor_set_velocity(wheel2, -vel);
- wb_motor_set_position(wheel3, INFINITY);
- wb_motor_set_velocity(wheel3, vel);
+  int vel=2;
+  wb_motor_set_position(wheel1, INFINITY);
+  wb_motor_set_velocity(wheel1, 0);
+  wb_motor_set_position(wheel2, INFINITY);
+  wb_motor_set_velocity(wheel2, -vel);
+  wb_motor_set_position(wheel3, INFINITY);
+  wb_motor_set_velocity(wheel3, vel);
 }
 
 void turnRightRobot(WbDeviceTag wheel1,WbDeviceTag wheel2,WbDeviceTag wheel3) {
- int vel=1;
- wb_motor_set_velocity(wheel1, vel);
- wb_motor_set_velocity(wheel2, vel);
- wb_motor_set_velocity(wheel3, vel);
+  int vel=1;
+  wb_motor_set_velocity(wheel1, vel);
+  wb_motor_set_velocity(wheel2, vel);
+  wb_motor_set_velocity(wheel3, vel);
 }
 
 void lookingForEnemies(WbDeviceTag enemy_sen) {
- float vel=0.6;
- wb_motor_set_position(enemy_sen, INFINITY);
- wb_motor_set_velocity(enemy_sen, vel);
+  float vel=0.6;
+  wb_motor_set_position(enemy_sen, INFINITY);
+  wb_motor_set_velocity(enemy_sen, vel);
 }
 
 void enemyDetected(WbDeviceTag enemy_sen) {
- wb_motor_set_position(enemy_sen, INFINITY);
- wb_motor_set_velocity(enemy_sen, 0);
+  wb_motor_set_position(enemy_sen, INFINITY);
+  wb_motor_set_velocity(enemy_sen, 0);
 }
 
 void gunPosition(WbDeviceTag gun,float a) {
- int vel=1;
- wb_motor_set_position(gun, a);
- wb_motor_set_velocity(gun, vel);
+  int vel=1;
+  wb_motor_set_position(gun, a);
+  wb_motor_set_velocity(gun, vel);
 }
 
 void shootGun(WbDeviceTag a) {
- if (a<2 && a>1.3) {
+  if (a<2 && a>1.3) {
    printf("THA\n");
- }
- if (a<1.2 && a>0.5) {
+  }
+  if (a<1.2 && a>0.5) {
    printf("THAAAAA\n");
- }
- if (a<=0.4) {
+  }
+  if (a<=0.4) {
    printf("THAAAAAAAAAAAAAAAAAAAAAAAA\n");
- }
+  }
 }
 
 int main(int argc, char **argv) {
