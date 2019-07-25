@@ -1,0 +1,30 @@
+First I created a funtions in a different files:
+line 16 and 17:
+in this libreries I created a funtion for ask the distance one
+is for the distance sensor of the car and the second one is for the gun and the radar.
+
+line 18:
+I created a funtion where ask for the position of my radar and the
+save the position in a different variable.
+
+line 34 to 55:
+I created the funtions for the robot movements forward, backward, stop, etc.
+
+line 57 to 71:
+those are the funtions for the radar and the gun.
+
+line 74 to 83:
+this funtions is for the impresion and the enfasis for the THA, THAAAAA
+
+line 89 to 115:
+those line are for the activation of the webots world
+
+in the while:
+first I inicializate the robot and the radar then if I detected and enemy
+i ask for the position of the radar and then I send the position to the gun in
+order to my gun could arrive the same position and start to shootGun.
+
+line 136 to 145:
+those lines are for avoid obstaculs first I check for the distance of the wall
+then depens of which sensor detect the wall and the robot will decide if turn
+left or turn right.
